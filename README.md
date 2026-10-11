@@ -18,6 +18,12 @@ Use camera requests video only, preferring the front camera at about 640x480/30f
 
 Chromium camera test used an authorized prerecorded UBFC face fixture through native getUserMedia: 30 seconds, 100% face coverage, all five branches and honest weak-pulse abstention. Automatic track stop, cancel, denied permission, no-camera, busy-camera and 320/390/1280px layout tests passed. This validates input plumbing, not detector accuracy.
 
+## Live BPM
+
+Camera capture shows Measuring until at least 10 seconds have been sampled. Every 2 seconds it recomputes a rolling up-to-15-second pulse estimate. A BPM number appears only if all report quality gates pass. Weak/unstable pulse, low face coverage, multiple faces, motion or lighting failures show Low signal - BPM withheld. The live number is not a medical measurement. Capture ends at 30 seconds, and the readout explicitly says capture stopped.
+
+Synthetic known-72-BPM signals returned 72 BPM when quality passed; a short window showed Measuring and a multiple-face failure withheld the number. Actual prerecorded face camera fixtures returned low signal rather than a false BPM. These are implementation checks, not medical or detector validation.
+
 ## Engineering and evidence
 
 The standalone `index.html` is the deployed app. MediaPipe Tasks FaceLandmarker uses CPU/image mode. RGB samples are extracted from landmark polygons via Canvas. Original JS POS, detrending, FFT spectral band-pass and Welch peak extraction, plus spatial correlations. Eye-aspect ratios detect relative closures. 2D FFT high-frequency ROI spread, local high-pass texture spread and translation/scale-normalized landmark displacement supply the other checks. This differs from the Python reference's Butterworth/texture implementation; reference numbers are not browser benchmark numbers.
