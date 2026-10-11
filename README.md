@@ -1,6 +1,6 @@
 # VERIFACE
 
-One static browser-local video forensics website. Upload a video or choose **Share screen** to inspect a tab/window with a playing face video. No Python server, API keys, video uploads, accounts, fees or cloud inference.
+One static browser-local video forensics website. Use **Use camera**, upload a video or choose **Share screen** to inspect a tab/window with a playing face video. No Python server, API keys, video uploads, accounts, fees or cloud inference.
 
 **Untrained research prototype, not a validated real/fake detector.** Five hand-weighted checks: POS pulse/spatial agreement, eye/blink symmetry, frequency-domain ROI differences, texture/noise differences and temporal landmark motion. Combined anomaly index is not a calibrated probability. Quality failures produce inconclusive results.
 
@@ -11,6 +11,12 @@ Open the GitHub Pages site. File input needs a video the browser can decode, pre
 Screen sharing is a browser-native permission prompt on HTTPS. Desktop Chrome/Edge recommended; most mobile browsers do not implement getDisplayMedia. Choose the relevant tab/window, keep one face video playing for 30 seconds and keep VERIFACE visible beside it. No audio capture. Whole-screen video can make the face too small. Capture tracks stop on completion, cancellation or errors. Screen-share denial produces a normal explanatory message. Protected media may be blacked out by the browser.
 
 The video never leaves the browser. Pinned MediaPipe 0.10.21 JS/WASM loads from jsDelivr and the face model loads from Google storage. Those services see asset requests, not video. JSON exports contain a face preview and should be treated as sensitive. There is no analytics or persistent storage.
+
+## Camera input
+
+Use camera requests video only, preferring the front camera at about 640x480/30fps. Allow browser permission and keep one face well lit and still for 30 seconds. A live preview and progress appear. Frames are analyzed locally, not recorded or uploaded; camera tracks stop on completion, cancel or errors, and the preview is cleared. Camera permission denial, missing camera and camera busy each have separate messages. Browser/OS permission and HTTPS are required. Actual phone hardware has not been tested.
+
+Chromium camera test used an authorized prerecorded UBFC face fixture through native getUserMedia: 30 seconds, 100% face coverage, all five branches and honest weak-pulse abstention. Automatic track stop, cancel, denied permission, no-camera, busy-camera and 320/390/1280px layout tests passed. This validates input plumbing, not detector accuracy.
 
 ## Engineering and evidence
 
